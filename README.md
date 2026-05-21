@@ -1,10 +1,10 @@
-# 🦷 Dashboard Odontológico — Multi-Clínica
+# Dashboard Odontológico — Multi-Clínica
 
 > **Dashboard de performance em tempo real para clínicas odontológicas**, integrado à plataforma Helena (WTS.chat) via API. Multi-clínica, sem redeploy — basta um `accountId` na URL.
 
 ---
 
-## ✨ Visão Geral
+## Visão Geral
 
 ```
 https://seu-dominio.vercel.app/?accountId=3e35f9a6-4f6b-430c-9f80-b7b4b41fbca7
@@ -14,18 +14,18 @@ Cada clínica acessa seu próprio dashboard com a URL acima. As credenciais fica
 
 ---
 
-## 🖥️ Screenshots
+## Layout
 
 ### KPIs + Receita
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
 │  Total    Comparec.  Conversão   Faltas   Cancel.   Reagend.  Ticket│
 │  66       33,3%      40,0%       66,7%    4         3         R$12k │
-│  ↑340%    ↑44,4%     ↑20,0%      ↓13,3%   ↑300%     —         —    │
+│  +340%    +44,4%     +20,0%      -13,3%   +300%     —         —     │
 ├──────────────────────────────────────────────────────────────────────┤
 │  RECEITA · baseado nos valores reais dos cards                       │
 │  ┌──────────────────────────┐  ┌──────────────────────────────────┐ │
-│  │ ✓ Receita Fechada        │  │ ↗ Oportunidade Perdida           │ │
+│  │ Receita Fechada          │  │ Oportunidade Perdida             │ │
 │  │ R$ 51.060                │  │ R$ 95.000                        │ │
 │  │ 6 contratos fechados     │  │ 14 pacientes não fecharam        │ │
 │  └──────────────────────────┘  └──────────────────────────────────┘ │
@@ -35,7 +35,7 @@ Cada clínica acessa seu próprio dashboard com a URL acima. As credenciais fica
 ### Gráfico + Distribuição por Etapa
 ```
 ┌──────────────────────────────────┬───────────────────────────────┐
-│  📈 Evolução temporal            │  Distribuição por etapa       │
+│  Evolução temporal               │  Distribuição por etapa       │
 │                                  │                               │
 │     ╭─╮                          │  Agendou          ████  12   │
 │    ╭╯ ╰╮     ╭─╮                 │  Compareceu NF    ███   8    │
@@ -46,22 +46,22 @@ Cada clínica acessa seu próprio dashboard com a URL acima. As credenciais fica
 └──────────────────────────────────┴───────────────────────────────┘
 ```
 
-### Tabela + Calendário
+### Tabela de Recuperáveis
 ```
 ┌──────────────────────────────────────────────────────────────────┐
-│  Compareceu mas não fechou          RECUPERÁVEL                  │
+│  Compareceu mas não fechou          RECUPERAVEL                  │
 │  ┌──────────────┬──────────────┬──────────┬────────────────────┐ │
 │  │ Paciente     │ Telefone     │ Data     │ Potencial          │ │
 │  ├──────────────┼──────────────┼──────────┼────────────────────┤ │
 │  │ Maria Silva  │ (11) 9xxxx   │ 20/05    │ R$ 8.500           │ │
-│  │ João Souza   │ (21) 9xxxx   │ 18/05    │ sem valor ⚠        │ │
+│  │ Joao Souza   │ (21) 9xxxx   │ 18/05    │ sem valor          │ │
 │  └──────────────┴──────────────┴──────────┴────────────────────┘ │
 └──────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 🏗️ Arquitetura
+## Arquitetura
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -72,11 +72,11 @@ Cada clínica acessa seu próprio dashboard com a URL acima. As credenciais fica
 ┌────────────────────────────▼────────────────────────────────────┐
 │               VERCEL SERVERLESS (api/dashboard.js)              │
 │                                                                 │
-│   1. Busca config da clínica no Supabase (accountId)           │
+│   1. Busca config da clinica no Supabase (accountId)            │
 │   2. Chama Helena API (paginado, paralelo)                      │
-│   3. Parseia cards + datas das descrições                       │
-│   4. Calcula ticket médio real                                  │
-│   5. Retorna JSON compacto ao frontend                         │
+│   3. Parseia cards + datas das descricoes                       │
+│   4. Calcula ticket medio real                                  │
+│   5. Retorna JSON compacto ao frontend                          │
 └──────────┬──────────────────────────────┬───────────────────────┘
            │                              │
 ┌──────────▼──────────┐       ┌──────────▼──────────────────────┐
@@ -91,22 +91,22 @@ Cada clínica acessa seu próprio dashboard com a URL acima. As credenciais fica
 
 ---
 
-## 📊 KPIs Calculados
+## KPIs Calculados
 
-| Indicador | Fórmula | Descrição |
+| Indicador | Formula | Descricao |
 |-----------|---------|-----------|
-| **Comparecimento** | `(compareceu + fechou) ÷ (compareceu + fechou + faltou)` | Taxa de presença nas consultas |
-| **Conversão** | `fechou ÷ (compareceu + fechou)` | Taxa de fechamento entre os que vieram |
-| **Faltas** | `faltou ÷ (compareceu + fechou + faltou)` | Taxa de ausência |
-| **Ticket Médio** | `Σ monetaryAmount(fechados) ÷ n` | Calculado dos valores reais da API |
-| **Receita Fechada** | `Σ monetaryAmount(converted)` | Apenas valores reais — sem estimativa |
-| **Oport. Perdida** | `Σ monetaryAmount(attended)` | Pacientes que vieram mas não fecharam |
+| **Comparecimento** | `(compareceu + fechou) / (compareceu + fechou + faltou)` | Taxa de presenca nas consultas |
+| **Conversao** | `fechou / (compareceu + fechou)` | Taxa de fechamento entre os que vieram |
+| **Faltas** | `faltou / (compareceu + fechou + faltou)` | Taxa de ausencia |
+| **Ticket Medio** | `sum(monetaryAmount) / n fechados` | Calculado dos valores reais da API |
+| **Receita Fechada** | `sum(monetaryAmount) dos converted` | Apenas valores reais, sem estimativa |
+| **Oport. Perdida** | `sum(monetaryAmount) dos attended` | Pacientes que vieram mas nao fecharam |
 
-> ⚠️ Cards sem `monetaryAmount` **não entram** nos cálculos de receita — aparecem em alerta separado com nome e telefone para acompanhamento.
+> Cards sem `monetaryAmount` nao entram nos calculos de receita — aparecem em alerta separado com nome e telefone para acompanhamento.
 
 ---
 
-## 🗂️ Estrutura do Projeto
+## Estrutura do Projeto
 
 ```
 DashBoard-s/
@@ -121,46 +121,46 @@ DashBoard-s/
 │   ├── components/
 │   │   ├── KpiStrip.jsx      # Faixa de KPIs com sparklines e deltas
 │   │   ├── RevenueRow.jsx    # Cards de receita fechada e oportunidade
-│   │   ├── TrendChart.jsx    # Gráfico de evolução temporal (Recharts)
-│   │   ├── StepDistribution.jsx  # Barras por etapa (Período / Geral)
-│   │   ├── LostTable.jsx     # Pacientes que compareceram e não fecharam
-│   │   ├── UpcomingTable.jsx # Próximos agendamentos
-│   │   └── DateRangePicker.jsx   # Calendário customizado de seleção
+│   │   ├── TrendChart.jsx    # Grafico de evolucao temporal (Recharts)
+│   │   ├── StepDistribution.jsx  # Barras por etapa (Periodo / Geral)
+│   │   ├── LostTable.jsx     # Pacientes que compareceram e nao fecharam
+│   │   ├── UpcomingTable.jsx # Proximos agendamentos
+│   │   └── DateRangePicker.jsx   # Calendario customizado de selecao
 │   │
 │   └── utils/
 │       ├── parseCards.js     # KPIs, receita, delta, getLost, getUpcoming
-│       └── groupByTime.js    # Agrupamento por dia/semana/mês
+│       └── groupByTime.js    # Agrupamento por dia/semana/mes
 │
-├── .env                      # 🔒 NÃO commitado — variáveis de ambiente
+├── .env.example              # Template de variaveis de ambiente
 ├── vercel.json               # Roteamento das serverless functions
 └── vite.config.js            # Plugin local para emular /api em dev
 ```
 
 ---
 
-## ⚙️ Tipos de Step (Helena)
+## Tipos de Step (Helena)
 
-Cada step do painel Helena é mapeado para um `type` semântico:
+Cada step do painel Helena e mapeado para um `type` semantico:
 
 | type | Significado | Exemplos de step |
 |------|-------------|-----------------|
 | `scheduled` | Agendamento futuro | Agendou, Reagendou |
-| `attended` | Compareceu, não fechou | Compareceu e NÃO Fechou |
+| `attended` | Compareceu, nao fechou | Compareceu e NAO Fechou |
 | `converted` | Fechou contrato | Compareceu e Fechou |
 | `missed` | Faltou | Faltou |
 | `cancelled` | Cancelou | Cancelou |
 
 ---
 
-## 🚀 Como Adicionar uma Nova Clínica
+## Como Adicionar uma Nova Clinica
 
-### Via Supabase (recomendado)
+Insira um registro no Supabase — nenhum redeploy necessario:
 
 ```sql
 INSERT INTO clinics (account_id, name, token, panel_id, ticket, steps)
 VALUES (
   'uuid-da-clinica',
-  'Nome da Clínica',
+  'Nome da Clinica',
   'Bearer pn_TOKEN_AQUI',
   'UUID_DO_PAINEL',
   12000,
@@ -168,29 +168,27 @@ VALUES (
     "agendou":             {"id": "UUID", "label": "Agendou",                 "color": "#6366F1", "type": "scheduled"},
     "reagendou":           {"id": "UUID", "label": "Reagendou",               "color": "#8B5CF6", "type": "scheduled"},
     "cancelou":            {"id": "UUID", "label": "Cancelou",                "color": "#EF4444", "type": "cancelled"},
-    "compareceuNaoFechou": {"id": "UUID", "label": "Compareceu e NÃO Fechou", "color": "#F59E0B", "type": "attended"},
+    "compareceuNaoFechou": {"id": "UUID", "label": "Compareceu e NAO Fechou", "color": "#F59E0B", "type": "attended"},
     "compareceuFechou":    {"id": "UUID", "label": "Compareceu e Fechou",     "color": "#10B981", "type": "converted"},
     "faltou":              {"id": "UUID", "label": "Faltou",                  "color": "#F97316", "type": "missed"}
   }'::jsonb
 );
 ```
 
-**URL gerada automaticamente:**
+URL gerada automaticamente:
 ```
 https://dashboard.vercel.app/?accountId=uuid-da-clinica
 ```
 
-Nenhum redeploy necessário. ✅
-
 ---
 
-## 🛠️ Rodando Localmente
+## Rodando Localmente
 
 ```bash
-# 1. Instalar dependências
+# 1. Instalar dependencias
 npm install
 
-# 2. Criar arquivo de variáveis de ambiente
+# 2. Criar arquivo de variaveis de ambiente
 cp .env.example .env
 # Preencher SUPABASE_URL e SUPABASE_SERVICE_KEY
 
@@ -201,39 +199,35 @@ npm run dev
 # http://localhost:5174/?accountId=SEU_ACCOUNT_ID
 ```
 
-### Variáveis de Ambiente
+### Variaveis de Ambiente
 
 ```env
 SUPABASE_URL=https://SEU_PROJETO.supabase.co
 SUPABASE_SERVICE_KEY=eyJhbGci...
 ```
 
-> No **Vercel**: adicione em Settings → Environment Variables antes do deploy.
+No Vercel: adicione em Settings → Environment Variables antes do deploy.
 
 ---
 
-## 📦 Deploy (Vercel)
+## Deploy (Vercel)
 
 ```bash
-# Deploy direto
 vercel --prod
-
-# Ou conecte o repositório GitHub na Vercel UI
-# e configure as Environment Variables
 ```
 
-O `vercel.json` já está configurado para rotear `/api/*` para as serverless functions.
+Ou conecte o repositorio GitHub na Vercel UI e configure as Environment Variables. O `vercel.json` ja esta configurado para rotear `/api/*` para as serverless functions.
 
 ---
 
-## 🔧 Stack Técnica
+## Stack
 
 | Camada | Tecnologia |
 |--------|-----------|
 | Frontend | React 18 + Vite |
-| Estilização | Tailwind CSS v3 |
-| Gráficos | Recharts |
-| Calendário | Customizado (date-fns) |
+| Estilizacao | Tailwind CSS v3 |
+| Graficos | Recharts |
+| Calendario | Customizado (date-fns) |
 | Backend | Vercel Serverless Functions |
 | Banco de dados | Supabase (PostgreSQL) |
 | CRM | Helena / WTS.chat API |
@@ -241,12 +235,12 @@ O `vercel.json` já está configurado para rotear `/api/*` para as serverless fu
 
 ---
 
-## 🔒 Segurança
+## Seguranca
 
-- Token Helena e service key Supabase ficam **apenas no servidor** (nunca no bundle do frontend)
+- Token Helena e service key Supabase ficam apenas no servidor, nunca no bundle do frontend
 - RLS (Row Level Security) habilitado na tabela `clinics`
-- `.env` no `.gitignore` — credenciais nunca vão para o repositório
+- `.env` no `.gitignore` — credenciais nunca vao para o repositorio
 
 ---
 
-*Dashboard Odontológico v2 · Escalarodonto*
+*Dashboard Odontologico v2 · Escalarodonto*
