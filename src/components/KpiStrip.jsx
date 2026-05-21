@@ -2,18 +2,7 @@ import Sparkline from './Sparkline.jsx'
 
 const MONO = 'font-mono tabular-nums'
 
-function DeltaBadge({ value, goodWhenPositive }) {
-  if (value == null) return null
-  const good = goodWhenPositive ? value >= 0 : value <= 0
-  const arrow = value >= 0 ? '↑' : '↓'
-  return (
-    <span className={`text-[11px] font-semibold flex items-center gap-0.5 ${good ? 'text-emerald-500' : 'text-red-500'}`}>
-      {arrow} {Math.abs(value).toFixed(1).replace('.', ',')}%
-    </span>
-  )
-}
-
-function KpiCell({ label, value, delta, goodWhenPositive, sub, spark, sparkColor, last }) {
+function KpiCell({ label, value, sub, spark, sparkColor, last }) {
   return (
     <div className={`flex-1 min-w-0 px-4 py-3.5 ${last ? '' : 'border-r border-slate-200'}`}>
       <div className="text-[11px] text-slate-400 font-medium mb-1.5 truncate">{label}</div>
@@ -21,7 +10,6 @@ function KpiCell({ label, value, delta, goodWhenPositive, sub, spark, sparkColor
         <span className={`text-[22px] font-semibold text-slate-900 leading-none ${MONO} tracking-tight`}>
           {value}
         </span>
-        <DeltaBadge value={delta} goodWhenPositive={goodWhenPositive} />
       </div>
       <div className="flex items-center justify-between gap-2">
         <span className="text-[11px] text-slate-400 truncate">{sub}</span>
@@ -49,8 +37,6 @@ export default function KpiStrip({ kpis, prevKpis, delta: d, chartData, ticket, 
       <KpiCell
         label="Total no período"
         value={kpis?.total ?? '—'}
-        delta={d?.total}
-        goodWhenPositive={true}
         sub={`${kpis?.scheduled ?? 0} aguardando`}
         spark={spark.total}
         sparkColor="#6366F1"
@@ -58,8 +44,6 @@ export default function KpiStrip({ kpis, prevKpis, delta: d, chartData, ticket, 
       <KpiCell
         label="Comparecimento"
         value={kpis?.attendanceRate != null ? kpis.attendanceRate.toFixed(1).replace('.', ',') + '%' : '—'}
-        delta={d?.attendanceRate}
-        goodWhenPositive={true}
         sub={`${kpis?.attended ?? 0}/${kpis?.shouldAttend ?? 0}`}
         spark={spark.attended}
         sparkColor="#10B981"
@@ -67,8 +51,6 @@ export default function KpiStrip({ kpis, prevKpis, delta: d, chartData, ticket, 
       <KpiCell
         label="Conversão"
         value={kpis?.conversionRate != null ? kpis.conversionRate.toFixed(1).replace('.', ',') + '%' : '—'}
-        delta={d?.conversionRate}
-        goodWhenPositive={true}
         sub={`${kpis?.converted ?? 0} fechamentos`}
         spark={spark.converted}
         sparkColor="#0EA5E9"
@@ -76,8 +58,6 @@ export default function KpiStrip({ kpis, prevKpis, delta: d, chartData, ticket, 
       <KpiCell
         label="Faltas"
         value={kpis?.missRate != null ? kpis.missRate.toFixed(1).replace('.', ',') + '%' : '—'}
-        delta={d?.missRate}
-        goodWhenPositive={false}
         sub={`${kpis?.missed ?? 0} no período`}
         spark={spark.missed}
         sparkColor="#EF4444"
@@ -85,8 +65,6 @@ export default function KpiStrip({ kpis, prevKpis, delta: d, chartData, ticket, 
       <KpiCell
         label="Cancelamentos"
         value={kpis?.cancelled ?? '—'}
-        delta={d?.cancelled}
-        goodWhenPositive={false}
         sub="no período"
         spark={spark.cancelled}
         sparkColor="#F59E0B"
@@ -94,7 +72,6 @@ export default function KpiStrip({ kpis, prevKpis, delta: d, chartData, ticket, 
       <KpiCell
         label="Reagendamentos"
         value={kpis?.rescheduled ?? '—'}
-        delta={null}
         sub="no período"
         spark={spark.rescheduled}
         sparkColor="#8B5CF6"
