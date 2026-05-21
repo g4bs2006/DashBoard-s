@@ -138,8 +138,10 @@ export default function App() {
             </div>
             <div>
               <div className="text-sm font-bold text-slate-900 leading-tight">
-                {data?.clinic ?? clinicSlug}{' '}
-                <span className="text-slate-400 font-normal text-sm">· Dashboard</span>
+                {data?.clinic
+                  ? <>{data.clinic} <span className="text-slate-400 font-normal text-sm">· Dashboard</span></>
+                  : <span className="text-slate-300 font-normal">Carregando...</span>
+                }
               </div>
               {lastFetch && (
                 <div className="text-[10px] text-slate-400">
