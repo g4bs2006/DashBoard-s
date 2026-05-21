@@ -61,18 +61,16 @@ export default function RevenueRow({ revenue, kpis }) {
             <span className="text-amber-500 text-sm shrink-0 mt-0.5">⚠</span>
             <div className="text-xs text-amber-700">
               <span className="font-semibold">
-                {semValor.length} card{semValor.length > 1 ? 's' : ''} sem valor preenchido
+                {semValor.length} card{semValor.length > 1 ? 's' : ''} sem valor
               </span>
-              {' — '}não entram na receita até serem preenchidos na Helena:{' '}
-              <span className="font-medium">
-                {semValor.map((c, i) => (
-                  <span key={c.id}>
-                    {i > 0 && ', '}
-                    {c.name}
-                    {c.phone && <span className="font-normal text-amber-600"> ({fmtPhone(c.phone)})</span>}
-                  </span>
-                ))}
-              </span>
+              {' — '}
+              {semValor.map((c, i) => (
+                <span key={c.id}>
+                  {i > 0 && ', '}
+                  <span className="font-medium">{c.name}</span>
+                  {c.phone && <span className="font-normal"> ({fmtPhone(c.phone)})</span>}
+                </span>
+              ))}
             </div>
           </div>
         )}
